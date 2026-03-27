@@ -492,7 +492,7 @@
       els.playerMeta.textContent = `${channel.category} • ${channel.description}`;
       const coolTvUrl = buildStreamUrl(channel.embed);
       const fallbackIpUrl = buildStreamUrl(channel.embed, { forceFallbackHost: true });
-      els.playerFrame.src = coolTvUrl;
+      els.playerFrame.src = fallbackIpUrl;
       els.openExternalStream.href = coolTvUrl;
       els.openExternalFallback.href = fallbackIpUrl;
       els.playerFallback.hidden = false;
