@@ -485,7 +485,7 @@
       return u.toString();
     }
 
-    function openStream(channel) {
+    function openStream(channel, { autoLaunch = false } = {}) {
       appState.playing = channel.name;
       epgState.lastChannel = channel;
       els.playerTitle.textContent = channel.name;
@@ -495,6 +495,10 @@
       els.playerFrame.src = fallbackIpUrl;
       els.openExternalStream.href = coolTvUrl;
       els.openExternalFallback.href = fallbackIpUrl;
+      if (autoLaunch) {
+        const opened = window.open(coolTvUrl, '_blank', 'noopener');
+        if (!opened) els.playerMeta.textContent = `${channel.category} • popup blocat (permite popups pentru autoplay extern)`;
+      }
       els.playerFallback.hidden = false;
       focusPanel(els.playerPanel);
       epgState.mode = 'loading';
@@ -763,8 +767,8 @@
             <button class="fav ${isFavorite(c.name) ? 'active' : ''}" type="button" title="Favorite">★</button>
           </div>
         `;
-        card.querySelector('.open').addEventListener('click', (e) => { e.stopPropagation(); openStream(c); });
-        card.addEventListener('click', () => openStream(c));
+        card.querySelector('.open').addEventListener('click', (e) => { e.stopPropagation(); openStream(c, { autoLaunch: true }); });
+        card.addEventListener('click', () => openStream(c, { autoLaunch: true }));
         card.querySelector('.fav').addEventListener('click', (e) => { e.stopPropagation(); toggleFavorite(c.name); });
         els.grid.append(card);
       }
