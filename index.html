@@ -12,8 +12,8 @@
       max-width: 1600px;
       margin: 0 auto;
       padding: 14px;
-      padding-right: 340px;
-      padding-bottom: 235px;
+      padding-right: 14px;
+      padding-bottom: 28px;
     }
     .panel { background:linear-gradient(180deg, rgba(22,28,44,.92), rgba(14,18,30,.95)); border:1px solid var(--border); border-radius:14px; padding:12px; }
     h1 { margin:0 0 6px; font-size:1.15rem; }
@@ -21,84 +21,96 @@
     .top { display:grid; gap:10px; margin-bottom:12px; }
     .controls { display:grid; grid-template-columns:1fr 220px auto; gap:8px; }
     input,select { width:100%; border:1px solid var(--border); border-radius:10px; background:#0f1322; color:var(--text); padding:10px 12px; outline:none; }
-    button { border:1px solid var(--border); border-radius:8px; background:#131a2d; color:var(--text); padding:6px 8px; font-size:.82rem; cursor:pointer; }
+    button { border:1px solid var(--border); border-radius:0 !important; background:#131a2d; color:var(--text); padding:7px 9px; font-size:.82rem; cursor:pointer; min-height:38px; }
     button.active { border-color:var(--accent); color:#dce4ff; }
     .notice { color:#bfcef8; font-size:.84rem; line-height:1.35; }
+    .quick-nav { display:flex; gap:8px; flex-wrap:wrap; }
+    .quick-nav button { padding:5px 10px; font-weight:600; min-width:112px; }
+    .quick-nav button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
 
+    .panel-focus {
+      box-shadow: 0 0 0 2px rgba(111,140,255,.75), 0 14px 30px rgba(0,0,0,.45);
+      transition: box-shadow .25s ease;
+    }
     .player {
-      width: min(290px, calc(100vw - 24px));
-      margin: 0;
+      width: min(640px, calc(100vw - 24px));
+      margin: 0 auto 10px;
       background:rgba(10,14,24,.95);
       border:1px solid var(--border);
       border-radius:12px;
       overflow:hidden;
       box-shadow:0 14px 30px rgba(0,0,0,.45);
-      position: fixed;
-      right: 14px;
-      bottom: 14px;
-      z-index: 12;
+      position: relative;
+      z-index: 2;
     }
     .tv-guide {
-      width: min(330px, calc(100vw - 24px));
-      position: fixed;
-      right: 14px;
-      bottom: 234px;
-      z-index: 11;
+      width: min(640px, calc(100vw - 24px));
+      position: relative;
+      margin: 0 auto 12px;
+      z-index: 1;
       background: rgba(10,14,24,.95);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 8px;
       box-shadow: 0 12px 22px rgba(0,0,0,.35);
     }
-    .guide-head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; }
-    .guide-title { margin: 0; font-size: .78rem; color: #c9d3f7; }
-    .guide-badge { font-size:.62rem; border:1px solid #3a4a7b; background:#1a2444; color:#ccdaff; border-radius:999px; padding:2px 7px; }
+    .guide-head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px; }
+    .guide-title { margin: 0; font-size: 1.28rem; color: #c9d3f7; font-weight:700; }
+    .guide-badge { font-size:1.05rem; border:1px solid #3a4a7b; background:#1a2444; color:#ccdaff; border-radius:999px; padding:4px 10px; }
     .guide-badge.live { border-color:#2f8762; background:#123527; color:#8df0be; }
-    .guide-list { max-height: 230px; overflow-y: auto; padding-right: 4px; }
-    .guide-row { display: grid; grid-template-columns: 46px 1fr; gap: 6px; font-size: .66rem; margin-bottom: 5px; }
+    .guide-list { max-height: 260px; overflow-y: auto; padding-right: 4px; }
+    .guide-row { display: grid; grid-template-columns: 92px 1fr; gap: 10px; font-size: 1.16rem; margin-bottom: 10px; }
     .guide-time { color: #9db0eb; }
     .guide-show { color: #e1e8ff; line-height:1.35; }
     .player-head { display:flex; justify-content:space-between; gap:10px; align-items:center; padding:8px 10px; }
-    .player-title { margin:0; font-size:.78rem; }
-    .player-meta { color:var(--muted); font-size:.66rem; }
+    .player-title { margin:0; font-size:.95rem; }
+    .player-meta { color:var(--muted); font-size:.82rem; }
     .player-wrap {
       border-top:1px solid var(--border);
       overflow:hidden;
       background:#000;
       aspect-ratio:16/9;
-      max-height: 190px;
+      max-height: 420px;
     }
     .player-frame { width:100%; height:100%; border:0; background:#000; }
 
     .grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; }
     .card { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:8px; display:grid; gap:6px; min-height:96px; cursor:pointer; }
+    .card.dragging { opacity:.5; border-style:dashed; }
+    .title-row { display:flex; align-items:center; gap:8px; }
+    .tv-logo { width:22px; height:22px; object-fit:contain; border-radius:3px; background:#0d1323; border:1px solid #2a365a; padding:2px; }
+    .tv-logo-fallback {
+      width:22px;
+      height:22px;
+      border-radius:3px;
+      border:1px solid #2a365a;
+      display:grid;
+      place-items:center;
+      font-size:.55rem;
+      color:#dce6ff;
+      background:linear-gradient(180deg,#253667,#1a2444);
+      font-weight:700;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+    }
     .card.active { border-color:var(--accent); }
     .card-header { display:flex; align-items:start; justify-content:space-between; gap:8px; }
     .title { margin:0; font-size:.82rem; line-height:1.2; }
     .badge { font-size:.62rem; color:#c7d3ff; background:#222c49; border:1px solid #3a4a7b; border-radius:999px; padding:1px 6px; white-space:nowrap; }
     .desc { margin:0; font-size:.68rem; color:var(--muted); line-height:1.2; }
-    .actions { display:flex; gap:6px; margin-top:auto; }
-    .open { flex:1; background:linear-gradient(180deg,#5e79f5,#4a63cf); border-color:#4861ca; color:#f1f4ff; font-weight:600; }
-    .fav { width:28px; }
+    .actions { display:flex; gap:5px; margin-top:auto; }
+    .open { flex:1; background:linear-gradient(180deg,#5e79f5,#4a63cf); border-color:#4861ca; color:#f1f4ff; font-weight:600; font-size:.72rem; }
+    .download { min-width:90px; padding:0 8px; font-size:.72rem; font-weight:600; }
+    .fav { width:32px; height:32px; padding:0; }
     .fav.active { color:var(--fav); border-color:var(--fav); }
     .empty { color:var(--muted); text-align:center; padding:20px 0; }
 
     @media (max-width:1400px) { .grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
     @media (max-width:1160px) {
-      .wrap { padding-right: 14px; }
       .grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
-      .player {
-        width: min(300px, calc(100vw - 20px));
-        right: 12px;
-        bottom: 12px;
-      }
-      .tv-guide {
-        width: min(300px, calc(100vw - 20px));
-        right: 12px;
-        bottom: 212px;
-      }
+      .player, .tv-guide { width: min(560px, calc(100vw - 20px)); }
       .guide-list { max-height: 200px; }
-      .player-wrap { max-height: 170px; }
+      .player-wrap { max-height: 360px; }
     }
     @media (max-width:900px) {
       .controls { grid-template-columns:1fr; }
@@ -108,20 +120,10 @@
     @media (max-width:680px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
     @media (max-width:430px) {
       .grid { grid-template-columns:1fr; }
-      .player {
-        width: auto;
-        left: 8px;
-        right: 8px;
-        bottom: 8px;
-      }
-      .tv-guide {
-        width: auto;
-        left: 8px;
-        right: 8px;
-        bottom: 186px;
-      }
+      .player, .tv-guide { width: calc(100vw - 16px); }
       .guide-list { max-height: 140px; }
-      .wrap { padding-bottom: 225px; }
+      .player-wrap { max-height: 250px; }
+      .wrap { padding-bottom: 20px; }
     }
   </style>
 </head>
@@ -130,24 +132,20 @@
     <section class="panel top">
       <div>
         <h1>IPTV Quick Grid</h1>
-        <p class="hint">Canale sus, player incadrat la mijloc, apoi butoane/canale dedesubt.</p>
+        <p class="hint">Canale sus, player incadrat la mijloc, apoi butoane/canale dedesubt. <span id="appVersion"></span></p>
+      </div>
+      <div class="quick-nav">
+        <button id="goToStream" type="button">▶ Stream</button>
+        <button id="goToProgram" type="button">📺 Program</button>
+        <button id="downloadM3u" type="button">⬇ Download M3U</button>
+        <button id="downloadIndex" type="button">⬇ Download index</button>
       </div>
       <div class="controls">
         <input id="searchInput" placeholder="Cauta post..." />
         <select id="categorySelect"><option value="all">Toate categoriile</option></select>
         <button id="showFavorites">★ Doar favorite</button>
       </div>
-      <div class="notice">Important: embed-uri third-party. Protectiile anti-popup sunt best effort.</div>
-    </section>
-
-    <section class="grid" id="channelGrid"></section>
-
-    <section class="tv-guide" id="tvGuide">
-      <div class="guide-head">
-        <h3 class="guide-title">Program TV</h3>
-        <span class="guide-badge" id="guideStatus">Se incarca programul</span>
-      </div>
-      <div class="guide-list" id="guideList"></div>
+      <div class="notice">Important: stream-ul foloseste linkul direct al canalului. Daca nu merge, incearca fallback IP.</div>
     </section>
 
     <section class="player" id="playerPanel">
@@ -159,6 +157,16 @@
         <iframe id="playerFrame" class="player-frame" title="IPTV Preview" allow="autoplay; fullscreen" loading="eager"></iframe>
       </div>
     </section>
+
+    <section class="tv-guide" id="tvGuide">
+      <div class="guide-head">
+        <h3 class="guide-title">Program TV</h3>
+        <span class="guide-badge" id="guideStatus">Se incarca programul</span>
+      </div>
+      <div class="guide-list" id="guideList"></div>
+    </section>
+
+    <section class="grid" id="channelGrid"></section>
   </div>
 
   <script id="epgData" type="application/json">
@@ -200,6 +208,7 @@
   </script>
 
   <script>
+    const APP_VERSION = '2026-03-27.3';
     const channels = [
       {name:'PROTV HD',embed:'https://canale-tv.com/channel/pr0tv.html',category:'General',description:'Romanian general entertainment and news.'},
       {name:'A1 HD',embed:'https://canale-tv.com/channel/a1.html',category:'General',description:'Popular Romanian general TV content.'},
@@ -308,12 +317,21 @@
       {name:'Dizi',embed:'https://canale-tv.com/channel/dizy.html',category:'Entertainment',description:'Turkish drama and serial content.'}
     ];
 
+    const channelLogos = {
+      'PROTV HD': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/PRO_TV_Logo.svg/120px-PRO_TV_Logo.svg.png',
+      'A1 HD': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Antena_1_2016_logo.svg/120px-Antena_1_2016_logo.svg.png',
+      'TVR1': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/TVR_1_logo_2019.svg/120px-TVR_1_logo_2019.svg.png',
+      'DIGI SPORT 1': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Digi_Sport_logo.svg/120px-Digi_Sport_logo.svg.png',
+      'BBC NEWS': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/BBC_News_2022_%28Alt%29.svg/120px-BBC_News_2022_%28Alt%29.svg.png'
+    };
+
     const appState = {
       playing: null,
       search: '',
       category: 'all',
       favoritesOnly: false,
-      favorites: new Set(JSON.parse(localStorage.getItem('iptv-favorites') || '[]'))
+      favorites: new Set(JSON.parse(localStorage.getItem('iptv-favorites') || '[]')),
+      order: JSON.parse(localStorage.getItem('iptv-order') || '[]')
     };
 
     const els = {
@@ -321,11 +339,18 @@
       search: document.getElementById('searchInput'),
       category: document.getElementById('categorySelect'),
       showFav: document.getElementById('showFavorites'),
+      goToStream: document.getElementById('goToStream'),
+      goToProgram: document.getElementById('goToProgram'),
+      downloadM3u: document.getElementById('downloadM3u'),
+      downloadIndex: document.getElementById('downloadIndex'),
       playerFrame: document.getElementById('playerFrame'),
       playerTitle: document.getElementById('playerTitle'),
       playerMeta: document.getElementById('playerMeta'),
       guideList: document.getElementById('guideList'),
-      guideStatus: document.getElementById('guideStatus')
+      guideStatus: document.getElementById('guideStatus'),
+      playerPanel: document.getElementById('playerPanel'),
+      tvGuide: document.getElementById('tvGuide'),
+      playerWrap: document.querySelector('.player-wrap')
     };
 
     const epgState = {
@@ -436,19 +461,23 @@
       'The Imitation Game'
     ];
 
-    const nativeOpen = window.open;
-    window.open = (...args) => {
-      if (args[0] && String(args[0]).startsWith('http')) return null;
-      return nativeOpen(...args);
-    };
-    window.addEventListener('beforeunload', (event) => {
-      if (document.activeElement?.tagName === 'IFRAME') {
-        event.preventDefault();
-        event.returnValue = '';
-      }
-    });
-
     function saveState() { localStorage.setItem('iptv-favorites', JSON.stringify([...appState.favorites])); }
+    function saveOrder() { localStorage.setItem('iptv-order', JSON.stringify(appState.order)); }
+    function orderedChannels() {
+      if (!appState.order.length) return channels.slice();
+      const rank = new Map(appState.order.map((name, idx) => [name, idx]));
+      return channels.slice().sort((a, b) => (rank.get(a.name) ?? 9999) - (rank.get(b.name) ?? 9999) || a.name.localeCompare(b.name));
+    }
+    function moveChannelBefore(draggedName, targetName) {
+      const list = orderedChannels().map(c => c.name);
+      const from = list.indexOf(draggedName);
+      const to = list.indexOf(targetName);
+      if (from === -1 || to === -1 || from === to) return;
+      const [item] = list.splice(from, 1);
+      list.splice(to, 0, item);
+      appState.order = list;
+      saveOrder();
+    }
     function isFavorite(name) { return appState.favorites.has(name); }
     function toggleFavorite(name) {
       appState.favorites.has(name) ? appState.favorites.delete(name) : appState.favorites.add(name);
@@ -458,26 +487,33 @@
 
     function buildStreamUrl(url) {
       const u = new URL(url);
-      u.searchParams.set('autoplay', '1');
-      u.searchParams.set('play', '1');
-      u.searchParams.set('muted', '0');
-      u.searchParams.set('mute', '0');
-      u.searchParams.set('volume', '100');
-      u.searchParams.set('playsinline', '1');
       return u.toString();
     }
 
-    function openStream(channel) {
+    function openStream(channel, { autoLaunch = false } = {}) {
       appState.playing = channel.name;
       epgState.lastChannel = channel;
       els.playerTitle.textContent = channel.name;
       els.playerMeta.textContent = `${channel.category} • ${channel.description}`;
-      els.playerFrame.src = buildStreamUrl(channel.embed);
+      const directUrl = buildStreamUrl(channel.embed);
+      els.playerFrame.src = directUrl;
+      if (autoLaunch) {
+        const opened = window.open(directUrl, '_blank', 'noopener');
+        if (!opened) els.playerMeta.textContent = `${channel.category} • popup blocat (permite popups pentru autoplay extern)`;
+      }
+      focusPanel(els.playerPanel);
       epgState.mode = 'loading';
       epgState.loadingUntil = Date.now() + 2500;
       updateGuide(channel);
       fetchProgramTvForChannel(channel).finally(() => { if (epgState.lastChannel?.name === channel.name) updateGuide(channel); });
       render();
+    }
+
+    function focusPanel(panel) {
+      if (!panel) return;
+      panel.classList.add('panel-focus');
+      setTimeout(() => panel.classList.remove('panel-focus'), 1200);
+      panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
 
@@ -694,9 +730,11 @@
         epgState.mode = 'loading';
         epgState.loadingUntil = Date.now() + 2500;
         updateGuideStatus();
-        epgPrograms = {};
-        epgState.mode = 'idle';
-        epgState.updatedAt = null;
+        const raw = document.getElementById('epgData')?.textContent || '{}';
+        const parsed = JSON.parse(raw);
+        epgPrograms = parsed.channels || {};
+        epgState.mode = Object.keys(epgPrograms).length ? 'remote' : 'idle';
+        epgState.updatedAt = parsed.updatedAt ? new Date(parsed.updatedAt).toLocaleString('ro-RO', { hour12: false }) : null;
       } catch (error) {
         epgPrograms = {};
         epgState.mode = 'fallback';
@@ -708,15 +746,80 @@
 
     function filteredChannels() {
       const q = appState.search.toLowerCase();
-      return channels
+      return orderedChannels()
         .filter(c => appState.category === 'all' || c.category === appState.category)
         .filter(c => c.name.toLowerCase().includes(q) || c.description.toLowerCase().includes(q))
-        .filter(c => !appState.favoritesOnly || isFavorite(c.name))
-        .sort((a,b) => {
-          const favDelta = Number(isFavorite(b.name)) - Number(isFavorite(a.name));
-          if (favDelta !== 0) return favDelta;
-          return a.name.localeCompare(b.name);
-        });
+        .filter(c => !appState.favoritesOnly || isFavorite(c.name));
+    }
+
+    function downloadM3u() {
+      const list = filteredChannels();
+      if (!list.length) return;
+      const lines = buildM3uLines(list);
+      const blob = new Blob([`${lines.join('\n')}\n`], { type: 'audio/x-mpegurl;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'iptv-quick-grid.m3u';
+      document.body.append(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function buildM3uLines(list) {
+      const lines = ['#EXTM3U'];
+      for (const ch of list) {
+        lines.push(`#EXTINF:-1 group-title="${ch.category}",${ch.name}`);
+        lines.push(ch.embed);
+      }
+      return lines;
+    }
+
+    function downloadChannel(channel) {
+      if (!channel) return;
+      const lines = buildM3uLines([channel]);
+      const safeName = channel.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'canal';
+      const blob = new Blob([`${lines.join('\n')}\n`], { type: 'audio/x-mpegurl;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${safeName}.m3u`;
+      document.body.append(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadIndexFile() {
+      const html = document.documentElement.outerHTML;
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      document.body.append(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function initialsForChannel(name) {
+      const cleaned = String(name || '')
+        .replace(/\b(HD|TV)\b/gi, '')
+        .replace(/[^A-Za-z0-9 ]+/g, ' ')
+        .trim();
+      const parts = cleaned.split(/\s+/).filter(Boolean);
+      if (!parts.length) return 'TV';
+      const compact = parts.slice(0, 2).map((part) => part[0]).join('');
+      return (compact || cleaned.slice(0, 2) || 'TV').toUpperCase();
+    }
+
+    function getLogoHtml(channelName) {
+      const logoUrl = channelLogos[channelName];
+      const initials = initialsForChannel(channelName);
+      if (!logoUrl) return `<span class="tv-logo-fallback" aria-hidden="true">${initials}</span>`;
+      return `<img class="tv-logo" src="${logoUrl}" alt="${channelName} logo" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'tv-logo-fallback',textContent:'${initials}','ariaHidden':'true'}));" />`;
     }
 
     function render() {
@@ -727,17 +830,36 @@
       for (const c of list) {
         const card = document.createElement('article');
         card.className = `card ${appState.playing === c.name ? 'active' : ''}`;
+        card.draggable = true;
+        card.dataset.channel = c.name;
+        const logoHtml = getLogoHtml(c.name);
         card.innerHTML = `
-          <div class="card-header"><h3 class="title">${c.name}</h3><span class="badge">${c.category}</span></div>
+          <div class="card-header"><div class="title-row">${logoHtml}<h3 class="title">${c.name}</h3></div><span class="badge">${c.category}</span></div>
           <p class="desc">${c.description}</p>
           <div class="actions">
             <button class="open" type="button">▶ Open stream</button>
+            <button class="download" type="button" title="Download canal">⬇ Download</button>
             <button class="fav ${isFavorite(c.name) ? 'active' : ''}" type="button" title="Favorite">★</button>
           </div>
         `;
-        card.querySelector('.open').addEventListener('click', () => openStream(c));
+        card.querySelector('.open').addEventListener('click', (e) => { e.stopPropagation(); openStream(c); });
+        card.querySelector('.download').addEventListener('click', (e) => { e.stopPropagation(); downloadChannel(c); });
         card.addEventListener('click', () => openStream(c));
         card.querySelector('.fav').addEventListener('click', (e) => { e.stopPropagation(); toggleFavorite(c.name); });
+        card.addEventListener('dragstart', (e) => {
+          card.classList.add('dragging');
+          e.dataTransfer?.setData('text/plain', c.name);
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        card.addEventListener('dragend', () => card.classList.remove('dragging'));
+        card.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
+        card.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const dragged = e.dataTransfer?.getData('text/plain');
+          if (!dragged || dragged === c.name) return;
+          moveChannelBefore(dragged, c.name);
+          render();
+        });
         els.grid.append(card);
       }
       els.showFav.classList.toggle('active', appState.favoritesOnly);
@@ -756,11 +878,34 @@
     els.search.addEventListener('input', (e) => { appState.search = e.target.value.trim(); render(); });
     els.category.addEventListener('change', (e) => { appState.category = e.target.value; render(); });
     els.showFav.addEventListener('click', () => { appState.favoritesOnly = !appState.favoritesOnly; render(); });
+    els.goToStream.addEventListener('click', () => focusPanel(els.playerPanel));
+    els.goToProgram.addEventListener('click', () => focusPanel(els.tvGuide));
+    els.downloadM3u.addEventListener('click', downloadM3u);
+    els.downloadIndex.addEventListener('click', downloadIndexFile);
+    async function toggleFullscreen() {
+      const target = els.playerPanel;
+      const fsElement = document.fullscreenElement || document.webkitFullscreenElement;
+      if (!fsElement) {
+        await (target.requestFullscreen?.() || target.webkitRequestFullscreen?.());
+      } else {
+        await (document.exitFullscreen?.() || document.webkitExitFullscreen?.());
+      }
+    }
+    els.playerWrap.addEventListener('dblclick', toggleFullscreen);
 
+    document.getElementById('appVersion').textContent = `v${APP_VERSION}`;
+    console.info(`IPTV Quick Grid version ${APP_VERSION}`);
     initCategories();
     render();
-    updateGuide(null);
-    loadEpgData();
+    loadEpgData().then(() => {
+      const startupChannel = channels[0];
+      if (startupChannel) {
+        epgState.lastChannel = startupChannel;
+        updateGuide(startupChannel);
+      } else {
+        updateGuide(null);
+      }
+    });
 
     setInterval(() => {
       if (epgState.lastChannel) updateGuide(epgState.lastChannel);
